@@ -19,6 +19,8 @@ int main() {
 
         int random_secret_number = (rand() % (max_number - min_number + 1)) + min_number;
         
+        printf("\n| GUESS THE NUMBER |\n");
+        printf("\nMaximum Limit: 10 attempts\n");
         printf("Guess the number (between 1 and 100) or enter 0 to exit: ");
         
         while (1) {
@@ -32,25 +34,30 @@ int main() {
                 break;
             }
 
-            if (player_guess != random_secret_number) {
+            if (player_guess != 0) {
                 attempts++;
             }
 
-            if (player_guess == random_secret_number) {
+            if (player_guess == random_secret_number && attempts < 10) {
                 printf("Congratulations! You guessed the correct number in %d attempts.\n", attempts);
                 if (player_best == -1 || attempts < player_best) {
                     player_best = attempts;
                     printf("New Achievement! Your best: %d attempts.\n", player_best);
                 }
                 break; 
-            } else if (player_guess < random_secret_number) {
+            } else if (player_guess < random_secret_number && attempts < 10) {
                 printf("Too low. Try guessing a higher number: ");
-            } else {
+            } else if (player_guess > random_secret_number && attempts < 10) {
                 printf("Too high. Try guessing a lower number: ");
+            }
+
+            if (attempts >= 10) {
+                printf("Game Over! You have exceeded the maximum number of attempts.\n");
+                break;
             }
         }
 
-        if (play_again == 1) {
+        if (play_again == 1 && attempts < 10) {
             printf("Do you want to play again? (1 for Yes, 0 for No): ");
             scanf("%d", &play_again);
             while (getchar() != '\n');
